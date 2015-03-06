@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <title>Image Viewer</title>
+    <link rel="stylesheet" href="lib/sugar-web/graphics/css/sugar.css">
+    <link rel="stylesheet" href="css/activity.css">
+    <script data-main="js/loader" src="lib/require.js"></script>
+    <script type="text/javascript" src="js/jquery.js" ></script>
+    <script type="text/javascript" src="js/activity.js" ></script>
+  </head>
+
+  <body>
+    <div id="main-toolbar" class="toolbar">
+      <button class="toolbutton" id="activity-button" title="Image Viewer"></button>
+      <hr />
+      <button class="toolbutton" id="zoom-out" title="Zoom Out"></button>
+      <button class="toolbutton" id="zoom-in" title="Zoom In"></button>
+      <button class="toolbutton" id="zoom-best" title="Fit to window"></button>
+      <button class="toolbutton" id="zoom-original" title="Original size"></button>
+      <hr/>
+      <button class="toolbutton" id="rotate_anticlockwise" title="Rotate anticlockwise"></button>
+      <button class="toolbutton" id="rotate_clockwise" title="Rotate clockwise"></button>
+      <hr />
+      <button class="toolbutton" id="previous-button" title="Previous Image"></button>
+      <button class="toolbutton" id="next-button" title="Next Image"></button>
+      <hr />
+      <button class="toolbutton" id="fullscreen" title="Fullscreen"></button>
+      <button class="toolbutton pull-right" id="stop-button" title="Stop"></button>
+    </div>
+
+    <div id="canvas">
+      <center>
+        <img id='principal-image'/>
+        <canvas id='myCanvas'></canvas>
+      </center>
+      <div id='init-image'>
+        <img src="icons/activity-grey.svg"/>
+        <br/>
+        <button id='open-button'><img id='button-image' src="icons/add.svg">Open image ...</button>
+      </div>
+    </div>
+
+    <form id='poster' action='.' method='post' enctype='multipart/form-data'>
+      <input id='search_image' type='file'/>
+    </form>
+
+    <button class="toolbutton" id="exit-fullscreen" title="Exit fullscreen"></button>
+  </body>
+
+</html>
