@@ -1,31 +1,63 @@
-var zoom = 100;
-var rot = 0;
-
 $(document).ready(function() {
-    var image = document.getElementById('principal-image');
-    var canvas = document.getElementById('myCanvas');
-    var choose = document.getElementById('init-image');
-    var ctx = canvas.getContext('2d');
-    canvas.setAttribute('width', window.innerWidth);
-    canvas.setAttribute('height', window.innerHeight);
+    image = document.getElementById('principal-image');
+    canvas = document.getElementById('myCanvas');
+    choose = document.getElementById('init-image');
+    ctx = canvas.getContext('2d');
     canvas.style.display = "none";
+    scale_h = 1.0;
+    scale_w = 1.0;
 
     $("#exit-fullscreen").hide();
 
     $("#zoom-in").click(function() {
-        console.log("Zoom-In");
+        if(scale_h <= 5.0 && scale_w <= 5.0){
+            scale_h += 0.1;
+            scale_w += 0.1;
+            canvas.setAttribute('width', image.width*scale_w);
+            canvas.setAttribute('height', image.height*scale_h);
+            ctx.scale(scale_w, scale_h);
+            ctx.drawImage(image, 0, 0);
+        }
     });
 
     $("#zoom-out").click(function() {
-        console.log("Zoom-Out");
+        if(scale_h > 0.5 && scale_w > 0.5){
+            scale_h -= 0.1;
+            scale_w -= 0.1;
+            canvas.setAttribute('width', image.width*scale_w);
+            canvas.setAttribute('height', image.height*scale_h);
+            ctx.scale(scale_w, scale_h);
+            ctx.drawImage(image, 0, 0);
+        }
     });
 
     $("#zoom-best").click(function() {
-        console.log("Zoom-Best");
+            h = image.height;
+            w = image.width;
+            if(h > window.innerHeight-55){
+                ratio = w/h;
+                h = window.innerHeight - 55;
+                w = ratio*h;
+            }
+            else if(w > window.innerWidth){
+                ratio = h/w;
+                w = window.innerWidth;
+                h = ratio*w;
+            }
+            scale_h = h/image.height;
+            scale_w = w/image.width;
+            canvas.setAttribute('width', image.width*scale_w);
+            canvas.setAttribute('height', image.height*scale_h);
+            ctx.scale(scale_w, scale_h);
+            ctx.drawImage(image, 0, 0);
     });
 
     $("#zoom-original").click(function() {
-        console.log("Zoom-Original");
+        scale_h = scale_w = 1.0;
+        canvas.setAttribute('width', image.width*scale_w);
+        canvas.setAttribute('height', image.height*scale_h);
+        ctx.scale(scale_w, scale_h);
+        ctx.drawImage(image, 0, 0);
     });
 
     $("#rotate_anticlockwise").click(function() {
@@ -99,18 +131,23 @@ $(document).ready(function() {
       var imageType = /image.*/;
 
       fileInput.addEventListener('change', function(e) {
-        var file = fileInput.files[0];
-        if (file.type.match(imageType)) {
           var reader = new FileReader();
-          reader.onload = function(e) {
-            var imageSrc = reader.result;
-            choose.style.display = 'none';
-            canvas.style.zIndex = 1;
-            image.src = imageSrc;
-          }
+
+          file = fileInput.files[0];
+          console.log(file);
           reader.readAsDataURL(file);
-        }
+          reader.onload = function(_file) {
+            image.src = _file.target.result;
+            image.onload = function(){
+                canvas.setAttribute('width', image.width);
+                canvas.setAttribute('height', image.height);
+                choose.style.display = "none";
+                canvas.style.display = "block";
+                ctx.drawImage(image, 0, 0);
+                image.style.display = "none";
+                canvas.toDataURL('image/jpeg');
+            }
+          }
       });
     });
-
 });
