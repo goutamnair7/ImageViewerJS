@@ -1,15 +1,15 @@
 $(document).ready(function() {
-    image = document.getElementById('principal-image');
-    canvas = document.getElementById('myCanvas');
-    choose = document.getElementById('init-image');
-    ctx = canvas.getContext('2d');
+    var image = document.getElementById('principal-image');
+    var canvas = document.getElementById('myCanvas');
+    var choose = document.getElementById('init-image');
+    var ctx = canvas.getContext('2d');
     canvas.style.display = "none";
-    scale_h = 1.0;
-    scale_w = 1.0;
+    var scale_h = scale_w = 1.0;
+    var rot = 0;
 
     $("#exit-fullscreen").hide();
 
-    $("#zoom-in").click(function() {
+    $("#zoom-in").unbind('click').click(function() {
         if(scale_h <= 5.0 && scale_w <= 5.0){
             scale_h += 0.1;
             scale_w += 0.1;
@@ -60,52 +60,43 @@ $(document).ready(function() {
         ctx.drawImage(image, 0, 0);
     });
 
-    $("#rotate_anticlockwise").click(function() {
+    $("#rotate_anticlockwise").unbind('click').click(function() {
         rot -= 90;
         if (rot < 0) {
           rot = 270;
         }
-        //rotateImage(rot);
+        rotateImage(rot);
     });
 
-    $("#rotate_clockwise").click(function() {
+    $("#rotate_clockwise").unbind('click').click(function() {
         rot += 90;
         if (rot > 270) {
           rot = 0;
         }
-        //rotateImage(rot);
+        rotateImage(rot);
     });
 
-    /*function rotateImage(degree) {
+    function rotateImage(degrees) {
       var ctx = canvas.getContext('2d');
-      var cw = image.width, ch = image.height, cx = 0, cy = 0;
+      var w = image.width, h = image.height;
 
-      //   Calculate new canvas size and x/y coorditates for image
       switch(rot){
         case 90:
           cw = image.height;
           ch = image.width;
-          cy = image.height * (-1);
-          break;
-        case 180:
-          cx = image.width * (-1);
-          cy = image.height * (-1);
           break;
         case 270:
           cw = image.height;
           ch = image.width;
-          cx = image.width * (-1);
           break;
-        }
-
-      //  Rotate image
-      canvas.setAttribute('width', cw);
-      canvas.setAttribute('height', ch);
+      }
+      canvas.setAttribute('width', w);
+      canvas.setAttribute('height', h);
       ctx.translate(canvas.width/2, canvas.height/2);
-      ctx.rotate(degree * Math.PI / 180);
+      ctx.rotate(degrees * Math.PI / 180);
       ctx.drawImage(image, -image.width/2,-image.height/2);
-      }*/
-
+      }
+    
     $("#fullscreen").click(function() {
         console.log("Switching to fullscreen");
         $(".toolbar").fadeIn('slow');
