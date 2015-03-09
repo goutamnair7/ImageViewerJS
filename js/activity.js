@@ -82,12 +82,12 @@ $(document).ready(function() {
 
       switch(rot){
         case 90:
-          cw = image.height;
-          ch = image.width;
+          w = image.height;
+          h = image.width;
           break;
         case 270:
-          cw = image.height;
-          ch = image.width;
+          w = image.height;
+          h = image.width;
           break;
       }
       canvas.setAttribute('width', w);
